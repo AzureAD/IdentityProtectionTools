@@ -1,10 +1,10 @@
 ---
 page_type: sample
 languages:
-- csharp
+- powershell
 products:
 - dotnet
-description: "Add 150 character max description"
+description: "Sample PowerShell module and scripts for automating activities for the Azure Active Directory Identity Protection services"
 urlFragment: "update-this-to-unique-url-stub"
 ---
 
@@ -18,7 +18,10 @@ Guidance on onboarding samples to docs.microsoft.com/samples: https://review.doc
 Taxonomies for products and languages: https://review.docs.microsoft.com/new-hope/information-architecture/metadata/taxonomies?branch=master
 -->
 
-Give a short description for your sample here. What does it do and why is it important?
+The Identity Protection Tools PowerShell module contains sample functions for:
+
+- Enumerating Risky Users by RiskLevel and date when their risk was last updated
+- Dismissing Risk for selected users for bulk operations
 
 ## Contents
 
@@ -33,21 +36,72 @@ Outline the file contents of the repository. It helps users navigate the codebas
 | `README.md`       | This README file.                          |
 | `LICENSE`         | The license for the sample.                |
 
-## Prerequisites
+## Prerequisite
 
-Outline the required components and tools that a user might need to have on their machine in order to run the sample. This can be anything from frameworks, SDKs, OS versions or IDE releases.
+The IdentityProtectionTools is utilizing the [Microsoft Graph PowerShell SDK Preview module](https://github.com/microsoftgraph/msgraph-sdk-powershell) for connecting and managing sessions with the Microsoft Graph API.
+
+1. Install the following modules from the PowerShell Gallery which are used to execute the logic in this module where you intend to run the module functions
+
+- [Microsoft.Graph.Authentication](https://www.powershellgallery.com/packages/Microsoft.Graph.Authentication)
+- [Microsoft.Graph.Identity.Protection](https://www.powershellgallery.com/packages/Microsoft.Graph.Identity.Protection)
+
+```ps
+Install-module Microsoft.Graph.Authentication,Microsoft.Graph.Identity.Protection
+```
+
+2. For the user that you intend to invoke the commands against the [Identity Protection RiskyUsers API](https://docs.microsoft.com/graph/api/resources/identityprotectionroot) you will need the following permissions granted
+
+- Listing riskyUsers
+  - IdentityRiskyUser.Read.All
+- Dismissing User Risk
+  - IdentityRiskyUser.ReadWrite.All
+
+**Note**: You will need to consent to the Microsoft Graph SDK PowerShell nodule in the tenant to use it to invoke Connect-Graph.
 
 ## Setup
 
-Explain how to prepare the sample once the user clones or downloads the repository. The section should outline every step necessary to install dependencies and set up any settings (for example, API keys and output folders).
+1. Download the Identity Protection Tools PowerShell Module from this repo
+2. Import the module into your PowerShell Session
+```ps
+Import-module IdentityProtectionTools.psm1
+```
 
 ## Running the sample
 
-Outline step-by-step instructions to execute the sample and see its output. Include steps for executing the sample from the IDE, starting specific services in the Azure portal or anything related to the overall launch of the code.
+1. Connect to the MS Graph endpoint with the proper permission scopes.  
+
+```ps
+$apiPermissionScopes = @("IdentityRiskyUser.Read.All", "IdentityRiskyUser.ReadWrite.All")
+Connect-Graph -Scopes $apiPermissionScopes
+```
+**Note:** For connecting as user identities, it will use the device flow using your browser.
+
+2. Enumerate users in the connected tenant which are a risky Users
+
+    -  You can specify the RiskLevel as:
+       -  low
+       -  medium
+       -  high
+       -  notnone (includes low,medium,high)
+    - Days since risk was updated
+      - -30 for updated in the last 30 days
+
+```ps
+Get-AzureADIPRiskyUser -RiskLevel High -All
+```
+
+3. Dismiss User Risk for collection of User IDs
+
+```ps
+Invoke-AzureADIPDismissUserRisk -UserIds $CollectionOfUsersIDs
+```
+
+**Note:** The riskyUsers API supports dismissing risk a page of 60 users at a time, which the sample will page through to completion.
+   
 
 ## Key concepts
 
-Provide users with more context on the tools and services used in the sample. Explain some of the code that is being used and how services interact with each other.
+The Identity Protection sample module is an example of utilizing the Microsoft Graph API for bulk operations.
 
 ## Contributing
 
