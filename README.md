@@ -3,12 +3,12 @@ page_type: sample
 languages:
 - powershell
 products:
-- dotnet
-description: "Sample PowerShell module and scripts for automating activities for the Azure Active Directory Identity Protection services"
+- AzureActiveDirectory
+description: "Sample PowerShell module and scripts for automating activities for the Azure Active Directory Identity Protection services API"
 urlFragment: "update-this-to-unique-url-stub"
 ---
 
-# Official Microsoft Sample
+# Sample
 
 <!-- 
 Guidelines on README format: https://review.docs.microsoft.com/help/onboard/admin/samples/concepts/readme-template?branch=master
@@ -22,13 +22,14 @@ The Identity Protection Tools PowerShell module contains sample functions for:
 
 - Enumerating Risky Users by RiskLevel and date when their risk was last updated
 - Dismissing Risk for selected users for bulk operations
+- Confirming Compromise for selected users for bulk operations
 
 ## Contents
 
 Outline the file contents of the repository. It helps users navigate the codebase, build configuration and any related assets.
 
 | File/folder       | Description                                |
-|-------------------|--------------------------------------------|
+| ----------------- | ------------------------------------------ |
 | `src`             | Sample source code.                        |
 | `.gitignore`      | Define what to ignore at commit time.      |
 | `CHANGELOG.md`    | List of changes to the sample.             |
