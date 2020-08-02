@@ -137,13 +137,15 @@ function Get-AzureADIPRiskyUser {
         }
         else {
             $riskyUsersCount = $RiskyUsers.count
+            
+            if ($asUserIds) {
+                Write-Output $RiskyUsers.Id
+            }
+            else {
+                Write-Output $RiskyUsers
+            }
         }
         Write-Verbose ("{0} Risky Users Retrieved!" -f ($riskyUsersCount))
-        if ($asUserIds) {
-            Write-Output $RiskyUsers.Id
-        }
-        else {
-            Write-Output $RiskyUsers
-        }
+        
     }
 }
