@@ -44,10 +44,10 @@ The IdentityProtectionTools is utilizing the [Microsoft Graph PowerShell SDK Pre
 1. Install the following modules from the PowerShell Gallery which are used to execute the logic in this module where you intend to run the module functions
 
 - [Microsoft.Graph.Authentication](https://www.powershellgallery.com/packages/Microsoft.Graph.Authentication)
-- [Microsoft.Graph.Identity.Protection](https://www.powershellgallery.com/packages/Microsoft.Graph.Identity.Protection)
+- [Microsoft.Graph.Identity.SignIns](https://www.powershellgallery.com/packages/Microsoft.Graph.Identity.SignIns)
 
 ```ps
-Install-module Microsoft.Graph.Authentication,Microsoft.Graph.Identity.Protection
+Install-module Microsoft.Graph.Authentication,Microsoft.Graph.Identity.SignIns
 ```
 
 2. For the user that you intend to invoke the commands against the [Identity Protection RiskyUsers API](https://docs.microsoft.com/graph/api/resources/identityprotectionroot) you will need the following permissions granted
@@ -58,6 +58,11 @@ Install-module Microsoft.Graph.Authentication,Microsoft.Graph.Identity.Protectio
   - IdentityRiskyUser.ReadWrite.All
 
 **Note**: You will need to consent to the Microsoft Graph SDK PowerShell nodule in the tenant to use it to invoke Connect-Graph.
+
+**Note**: The Risky Users API requires the beta endpoints for MS Graph. To select the beta endpoint and enable the required commandlets in the Microsoft.Graph Powershell modules run
+```
+Select-MgProfile -Name "beta"
+```
 
 ## Setup
 
