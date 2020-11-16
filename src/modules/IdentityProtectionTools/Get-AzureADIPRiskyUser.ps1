@@ -74,14 +74,20 @@ function Get-AzureADIPRiskyUser {
         $apiPermissionScopes = @("IdentityRiskyUser.Read.All")
 
         if ($null -eq (Get-MgContext)) {
-            Write-Error "Please Connect to MS Graph API with the Connect-Graph cmdlet from the Microsoft.Graph.Authentication module first before calling functions!" -ErrorAction Stop
+            Write-Error "Please Connect to MS Graph API with the Connect-MgGraph cmdlet from the Microsoft.Graph.Authentication module first before calling functions!" -ErrorAction Stop
         }
         else {
             if ($false -eq ((Get-MgContext).Scopes.Contains("IdentityRiskyUser.Read.All"))) {
                 Write-Error "Current MS Graph Context does not contain the IdentityRiskyUser.Read.All scope required to call the IdentityProtection riskyUsers API.  Please ensure you are connecting with an identity that has this permission scope!" -ErrorAction Stop
             }
 
+            if ((Get-MgProfile).Name -eq 'v1.0') {
+                Write-Warning ("Current MGProfile is set to v1.0, and some cmdlets may need to use the beta profile.   Run Select-MgProfile -Name beta to switch to beta API profile")
+            }
+
         }
+
+        
     }
     process {
         $ParamCollection = @{}
