@@ -39,18 +39,18 @@ Outline the file contents of the repository. It helps users navigate the codebas
 
 ## Prerequisite
 
-The IdentityProtectionTools is utilizing the [Microsoft Graph PowerShell SDK Preview module](https://github.com/microsoftgraph/msgraph-sdk-powershell) for connecting and managing sessions with the Microsoft Graph API.
+The IdentityProtectionTools is utilizing the [Microsoft Graph PowerShell SDK module](https://docs.microsoft.com/en-us/graph/powershell/installation) for connecting and managing sessions with the Microsoft Graph API.
 
 1. Install the following modules from the PowerShell Gallery which are used to execute the logic in this module where you intend to run the module functions
 
 - [Microsoft.Graph.Authentication](https://www.powershellgallery.com/packages/Microsoft.Graph.Authentication)
-- [Microsoft.Graph.Identity.Protection](https://www.powershellgallery.com/packages/Microsoft.Graph.Identity.Protection)
+- [Microsoft.Graph.Identity.SignIns](https://www.powershellgallery.com/packages/Microsoft.Graph.Identity.SignIns/)
 
 ```ps
-Install-module Microsoft.Graph.Authentication,Microsoft.Graph.Identity.Protection
+Install-module Microsoft.Graph.Authentication,Microsoft.Graph.Identity.SignIns
 ```
 
-2. For the user that you intend to invoke the commands against the [Identity Protection RiskyUsers API](https://docs.microsoft.com/graph/api/resources/identityprotectionroot) you will need the following permissions granted
+1. For the user that you intend to invoke the commands against the [Identity Protection RiskyUsers API](https://docs.microsoft.com/graph/api/resources/identityprotectionroot) you will need the following permissions granted
 
 - Listing riskyUsers
   - IdentityRiskyUser.Read.All
