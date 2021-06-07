@@ -62,9 +62,10 @@ Install-module Microsoft.Graph.Authentication,Microsoft.Graph.Identity.SignIns
 ## Setup
 
 1. Download the Identity Protection Tools PowerShell Module from this repo
-2. Import the module into your PowerShell Session
+2. From where you extracted the files, Import the module into your PowerShell Session
+**Note:** Please do not use the ISE to run this sample
 ```ps
-Import-module IdentityProtectionTools.psm1
+Import-module .\IdentityProtectionTools.psd1
 ```
 
 ## Running the sample
