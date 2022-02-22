@@ -95,7 +95,7 @@ Get-AzureADIPRiskyUser -RiskLevel High -All
 3. Dismiss User Risk for collection of User IDs
 
 ```ps
-Invoke-AzureADIPDismissUserRisk -UserIds $CollectionOfUsersIDs
+Invoke-AzureADIPDismissRiskyUser -UserIds $CollectionOfUsersIDs
 ```
 
 **Note:** The riskyUsers API supports dismissing risk a page of 60 users at a time, which the sample will page through to completion.
