@@ -10,10 +10,10 @@
      $riskyUsers = Get-AzureADIPRiskyUser -RiskLevel high -Verbose  -All -asUserIds
      Get all users with elevated risk that was updated in the last day as a collection of User ObjectIDs
 .EXAMPLE
-    $riskyUsers = Get-AzureADIPRiskyUser -RiskLevel high -Verbose  -All -asUserIds -riskUpdatedSinceDays -30
+    $riskyUsers = Get-AzureADIPRiskyUser -RiskLevel high -Verbose  -All -asUserIds -riskUpdatedSinceDays 30
     Get all High Risk users with their risk updated in the last 30 days as a collection of User ObjectIDs
 .EXAMPLE
-    $riskyUsers = Get-AzureADIPRiskyUser -RiskLevel high -Verbose  -All -asUserIds -riskUpdatedSinceDays -30
+    $riskyUsers = Get-AzureADIPRiskyUser -RiskLevel high -Verbose  -All -asUserIds -riskUpdatedSinceDays 30
     Invoke-AzureADIPDismissRiskyUser -UserIds $riskyUsers -Verbose
 
     Retrieve the Risky Users and then dismiss their risk
@@ -119,7 +119,7 @@ function Get-AzureADIPRiskyUser {
             }
 
             if ($null -notlike $riskUpdatedSinceDays) {
-                Write-Verbose ("Retrieving RiskyUsers who had their risk updated since {0} days" -f $riskUpdatedSinceDays)
+                Write-Verbose ("Retrieving RiskyUsers who had their risk updated since {0} days" -f (0-$riskUpdatedSinceDays))
                 $filterDate = ("(riskLastUpdatedDateTime gt {0})" -f (Get-Date (get-date).AddDays($riskUpdatedSinceDays) -UFormat %Y-%m-%dT00:00:00Z))
                 if ($null -eq $filterBuilder) {
                     $filterBuilder = $filterDate
