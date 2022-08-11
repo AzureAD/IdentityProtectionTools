@@ -89,12 +89,13 @@ Connect-Graph -Scopes $apiPermissionScopes
       - -30 for updated in the last 30 days
 
 ```ps
-$CollectionOfUsersIDs = Get-AzureADIPRiskyUser -RiskLevel High -All
+Get-AzureADIPRiskyUser -RiskLevel High -All
 ```
 
-3. Dismiss User Risk for collection of User IDs
+3. Dismiss User Risk for collection of User IDs for risky users updated in the last 30 days
 
 ```ps
+$CollectionOfUsersIDs = Get-AzureADIPRiskyUser -RiskLevel High -All -asUserIds -riskUpdatedSinceDays 30
 Invoke-AzureADIPDismissRiskyUser -UserIds $CollectionOfUsersIDs
 ```
 
