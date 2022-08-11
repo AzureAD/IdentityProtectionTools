@@ -89,7 +89,7 @@ Connect-Graph -Scopes $apiPermissionScopes
       - -30 for updated in the last 30 days
 
 ```ps
-Get-AzureADIPRiskyUser -RiskLevel High -All
+$CollectionOfUsersIDs = Get-AzureADIPRiskyUser -RiskLevel High -All
 ```
 
 3. Dismiss User Risk for collection of User IDs
