@@ -44,7 +44,7 @@ function Get-AzureADIPRiskyUser {
             ValueFromPipeline = $true,
             ValueFromPipelineByPropertyName = $true,
             ValueFromRemainingArguments = $false)]
-        # The days ago that the risk was last updated expressed in negative days (-30 for 30 Days Ago)
+        # The days ago that the risk was last updated expressed in negative days (30 for 30 Days Ago)
         [int]
         $riskUpdatedSinceDays,
         [Parameter(Mandatory = $False,
@@ -87,7 +87,7 @@ function Get-AzureADIPRiskyUser {
 
         }
 
-        
+
     }
     process {
         $ParamCollection = @{}
@@ -119,8 +119,16 @@ function Get-AzureADIPRiskyUser {
             }
 
             if ($null -notlike $riskUpdatedSinceDays) {
-                Write-Verbose ("Retrieving RiskyUsers who had their risk updated since {0} days" -f (0-$riskUpdatedSinceDays))
-                $filterDate = ("(riskLastUpdatedDateTime gt {0})" -f (Get-Date (get-date).AddDays($riskUpdatedSinceDays) -UFormat %Y-%m-%dT00:00:00Z))
+
+                if ($riskUpdatedSinceDays -lt 0) {
+                    $pastDays = $riskUpdatedSinceDays
+                }
+                else {
+                    $pastDays = 0 - $riskUpdatedSinceDays
+                }
+
+                Write-Verbose ("Retrieving RiskyUsers who had their risk updated since {0} days" -f ($pastDays))
+                $filterDate = ("(riskLastUpdatedDateTime gt {0})" -f (Get-Date (get-date).AddDays($pastDays) -UFormat %Y-%m-%dT00:00:00Z))
                 if ($null -eq $filterBuilder) {
                     $filterBuilder = $filterDate
                 }
@@ -142,8 +150,8 @@ function Get-AzureADIPRiskyUser {
             $riskyUsersCount = 0
         }
         else {
-            $riskyUsersCount = $RiskyUsers.count
-            
+            $riskyUsersCount = ($RiskyUsers | Measure-Object).count
+
             if ($asUserIds) {
                 Write-Output $RiskyUsers.Id
             }
@@ -152,6 +160,6 @@ function Get-AzureADIPRiskyUser {
             }
         }
         Write-Verbose ("{0} Risky Users Retrieved!" -f ($riskyUsersCount))
-        
+
     }
 }
